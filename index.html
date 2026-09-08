@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111318" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Career XP" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <title>Career XP</title>
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --card: #171a21;
+      --card-2: #20242d;
+      --text: #f4f5f7;
+      --muted: #9ca3af;
+      --line: #2b303a;
+      --accent: #7dd3fc;
+      --accent-2: #a7f3d0;
+      --danger: #fca5a5;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif; }
+    body { padding: 18px 14px calc(92px + var(--safe-bottom)); }
+    button, input, select { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    .app { max-width: 760px; margin: 0 auto; }
+    .topbar { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin:4px 2px 16px; }
+    .eyebrow { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.11em; font-weight:700; }
+    h1 { margin:3px 0 0; font-size:31px; letter-spacing:-.04em; }
+    .date { color:var(--muted); font-size:13px; text-align:right; margin-top:6px; }
+    .hero { background:linear-gradient(145deg, #1b2029, #11141a); border:1px solid var(--line); border-radius:24px; padding:20px; margin-bottom:14px; box-shadow:0 12px 34px rgba(0,0,0,.18); }
+    .hero.inactive { padding:18px 20px; }
+    .active-label { color:var(--accent-2); font-weight:800; font-size:12px; letter-spacing:.1em; text-transform:uppercase; }
+    .active-name { font-size:25px; font-weight:800; margin-top:6px; }
+    .active-time { font-variant-numeric: tabular-nums; font-size:45px; font-weight:800; letter-spacing:-.04em; margin:10px 0 16px; }
+    .hero-actions { display:flex; gap:10px; }
+    .btn { border:0; border-radius:14px; padding:13px 16px; font-weight:800; cursor:pointer; }
+    .btn-primary { background:var(--text); color:#111318; }
+    .btn-secondary { background:var(--card-2); color:var(--text); border:1px solid var(--line); }
+    .btn-danger { background:#3a2023; color:#ffd4d4; border:1px solid #623136; }
+    .btn:active { transform:scale(.985); }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:18px; }
+    .stat { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:14px 12px; }
+    .stat strong { display:block; font-size:20px; letter-spacing:-.03em; }
+    .stat span { color:var(--muted); font-size:12px; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:10px; margin:20px 2px 10px; }
+    .section-head h2 { font-size:18px; margin:0; letter-spacing:-.02em; }
+    .section-head small { color:var(--muted); }
+    .category-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; }
+    .category { width:100%; text-align:left; color:var(--text); background:var(--card); border:1px solid var(--line); border-radius:18px; padding:16px; min-height:112px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; }
+    .category:active { transform:scale(.985); }
+    .category-top { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .emoji { font-size:22px; }
+    .play { width:34px; height:34px; border-radius:50%; background:var(--card-2); display:grid; place-items:center; font-size:13px; }
+    .category-name { font-size:15px; font-weight:800; margin-top:9px; }
+    .category-meta { color:var(--muted); font-size:12px; margin-top:3px; }
+    .strategic-pill { color:#bdf5db; background:#17312a; border:1px solid #275244; border-radius:999px; padding:3px 7px; font-size:10px; font-weight:800; }
+    .history { display:flex; flex-direction:column; gap:8px; }
+    .session { display:grid; grid-template-columns:1fr auto auto; gap:10px; align-items:center; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:12px 12px 12px 14px; }
+    .session-title { font-weight:750; font-size:14px; }
+    .session-sub { color:var(--muted); font-size:12px; margin-top:3px; }
+    .duration { font-variant-numeric:tabular-nums; font-weight:800; font-size:14px; }
+    .icon-btn { width:34px; height:34px; border-radius:10px; border:1px solid var(--line); background:var(--card-2); color:var(--text); cursor:pointer; }
+    .empty { color:var(--muted); text-align:center; padding:28px 10px; background:var(--card); border:1px dashed var(--line); border-radius:16px; }
+    .bottom { position:fixed; left:0; right:0; bottom:0; padding:8px 12px calc(8px + var(--safe-bottom)); background:rgba(13,15,20,.92); backdrop-filter: blur(18px); border-top:1px solid var(--line); }
+    .bottom-inner { max-width:760px; margin:auto; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .navbtn { border:0; background:transparent; color:var(--muted); padding:8px; border-radius:12px; font-size:12px; font-weight:700; }
+    .navbtn.active { color:var(--text); background:var(--card); }
+    .view { display:none; }
+    .view.active { display:block; }
+    .panel { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:16px; margin-bottom:10px; }
+    .panel h3 { margin:0 0 6px; font-size:16px; }
+    .panel p { margin:0; color:var(--muted); font-size:13px; line-height:1.45; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .field { display:flex; flex-direction:column; gap:6px; flex:1; min-width:120px; }
+    label { color:var(--muted); font-size:12px; font-weight:700; }
+    input, select { width:100%; border:1px solid var(--line); background:var(--card-2); color:var(--text); border-radius:12px; padding:11px 12px; }
+    .progress-row { margin:14px 0; }
+    .progress-top { display:flex; justify-content:space-between; gap:10px; margin-bottom:7px; font-size:13px; }
+    .bar { height:9px; background:#252a33; border-radius:99px; overflow:hidden; }
+    .fill { height:100%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius:99px; }
+    .danger-text { color:var(--danger); }
+    dialog { width:min(92vw, 500px); border:1px solid var(--line); border-radius:20px; background:#15181f; color:var(--text); padding:18px; }
+    dialog::backdrop { background:rgba(0,0,0,.65); backdrop-filter:blur(3px); }
+    dialog h3 { margin:0 0 14px; }
+    .dialog-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:16px; }
+    @media (min-width:700px) {
+      .category-grid { grid-template-columns:repeat(3, minmax(0, 1fr)); }
+      .stats { grid-template-columns:repeat(4,1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div><div class="eyebrow">Transición profesional</div><h1>Career XP</h1></div>
+    <div class="date" id="todayDate"></div>
+  </div>
+
+  <main id="view-timer" class="view active">
+    <section id="activeHero" class="hero inactive"></section>
+
+    <section class="stats">
+      <div class="stat"><strong id="todayTotal">0 min</strong><span>Hoy</span></div>
+      <div class="stat"><strong id="weekStrategic">0 min</strong><span>Estratégico / semana</span></div>
+      <div class="stat"><strong id="monthStrategic">0 min</strong><span>Estratégico / mes</span></div>
+      <div class="stat"><strong id="allTotal">0 min</strong><span>Total registrado</span></div>
+    </section>
+
+    <div class="section-head"><h2>¿En qué vas a trabajar?</h2><small>Un toque para empezar</small></div>
+    <section class="category-grid" id="categoryGrid"></section>
+
+    <div class="section-head"><h2>Últimas sesiones</h2><small id="sessionCount"></small></div>
+    <section class="history" id="recentHistory"></section>
+  </main>
+
+  <main id="view-progress" class="view">
+    <div class="section-head"><h2>Progreso acumulado</h2><small>Tu personaje profesional</small></div>
+    <section class="panel" id="progressPanel"></section>
+    <section class="panel">
+      <h3>Objetivo semanal estratégico</h3>
+      <p>Por defecto: 5 horas. Puedes cambiarlo en Ajustes.</p>
+      <div class="progress-row">
+        <div class="progress-top"><span>Esta semana</span><strong id="weeklyGoalText"></strong></div>
+        <div class="bar"><div class="fill" id="weeklyGoalBar"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <main id="view-settings" class="view">
+    <div class="section-head"><h2>Ajustes</h2><small>Simple a propósito</small></div>
+    <section class="panel">
+      <h3>Objetivo semanal</h3>
+      <p>Horas de inversión estratégica que quieres acumular cada semana.</p>
+      <div class="row">
+        <div class="field"><label for="weeklyGoal">Horas / semana</label><input id="weeklyGoal" type="number" min="0.5" step="0.5" /></div>
+        <div class="field" style="justify-content:flex-end"><button class="btn btn-primary" id="saveGoal">Guardar</button></div>
+      </div>
+    </section>
+    <section class="panel">
+      <h3>Respaldo</h3>
+      <p>Los datos viven en este navegador. Exporta un respaldo de vez en cuando para no depender solo del almacenamiento del iPhone.</p>
+      <div class="row">
+        <button class="btn btn-secondary" id="exportBtn">Exportar JSON</button>
+        <button class="btn btn-secondary" id="importBtn">Importar JSON</button>
+        <input id="importFile" type="file" accept="application/json" hidden />
+      </div>
+    </section>
+    <section class="panel">
+      <h3>Añadir sesión manual</h3>
+      <p>Útil si te olvidaste de iniciar el cronómetro.</p>
+      <div class="row"><button class="btn btn-secondary" id="manualBtn">+ Añadir sesión</button></div>
+    </section>
+    <section class="panel">
+      <h3 class="danger-text">Borrar todos los datos</h3>
+      <p>Elimina sesiones, temporizador activo y preferencias de este dispositivo.</p>
+      <div class="row"><button class="btn btn-danger" id="wipeBtn">Borrar todo</button></div>
+    </section>
+  </main>
+</div>
+
+<nav class="bottom">
+  <div class="bottom-inner">
+    <button class="navbtn active" data-view="timer">⏱<br>Timer</button>
+    <button class="navbtn" data-view="progress">📈<br>Progreso</button>
+    <button class="navbtn" data-view="settings">⚙️<br>Ajustes</button>
+  </div>
+</nav>
+
+<dialog id="editDialog">
+  <h3 id="dialogTitle">Editar sesión</h3>
+  <div class="row">
+    <div class="field"><label>Categoría</label><select id="editCategory"></select></div>
+  </div>
+  <div class="row">
+    <div class="field"><label>Inicio</label><input id="editStart" type="datetime-local" /></div>
+    <div class="field"><label>Fin</label><input id="editEnd" type="datetime-local" /></div>
+  </div>
+  <div class="dialog-actions">
+    <button class="btn btn-secondary" id="cancelEdit">Cancelar</button>
+    <button class="btn btn-primary" id="saveEdit">Guardar</button>
+  </div>
+</dialog>
+
+<script>
+const CATEGORIES = [
+  {id:'ciplan', name:'Ciplan / Cálculo', emoji:'🧮', strategic:true},
+  {id:'bim', name:'BIM / Formación', emoji:'🎓', strategic:true},
+  {id:'process', name:'Procesos / Herramientas', emoji:'⚙️', strategic:true},
+  {id:'delegation', name:'Formación / Delegación', emoji:'👥', strategic:true},
+  {id:'commercial', name:'Técnico-comercial', emoji:'🤝', strategic:true},
+  {id:'production', name:'Producción', emoji:'🏗️', strategic:false},
+  {id:'coordination', name:'Coordinación', emoji:'🧭', strategic:false},
+];
+const KEY = 'careerXP.v1';
+let state = loadState();
+let editingId = null;
+
+function defaultState(){ return {sessions:[], active:null, weeklyGoalHours:5}; }
+function loadState(){
+  try { return {...defaultState(), ...(JSON.parse(localStorage.getItem(KEY))||{})}; }
+  catch { return defaultState(); }
+}
+function saveState(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+function cat(id){ return CATEGORIES.find(c=>c.id===id) || CATEGORIES[0]; }
+function uid(){ return (crypto.randomUUID ? crypto.randomUUID() : Date.now()+'-'+Math.random().toString(16).slice(2)); }
+function pad(n){ return String(n).padStart(2,'0'); }
+function formatDuration(ms){
+  ms=Math.max(0,ms); const mins=Math.round(ms/60000); const h=Math.floor(mins/60), m=mins%60;
+  if(h===0) return `${m} min`; if(m===0) return `${h} h`; return `${h} h ${m} min`;
+}
+function formatClock(ms){
+  const s=Math.max(0,Math.floor(ms/1000)); const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60;
+  return `${pad(h)}:${pad(m)}:${pad(sec)}`;
+}
+function localInputValue(ts){
+  const d=new Date(ts), off=d.getTimezoneOffset(); const local=new Date(ts-off*60000); return local.toISOString().slice(0,16);
+}
+function dayStart(d=new Date()){ return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime(); }
+function weekStart(d=new Date()){
+  const copy=new Date(d.getFullYear(),d.getMonth(),d.getDate()); const day=(copy.getDay()+6)%7; copy.setDate(copy.getDate()-day); return copy.getTime();
+}
+function monthStart(d=new Date()){ return new Date(d.getFullYear(),d.getMonth(),1).getTime(); }
+function sessionsWithRunning(){
+  const all=[...state.sessions];
+  if(state.active) all.push({id:'__active__', categoryId:state.active.categoryId, start:state.active.start, end:Date.now()});
+  return all;
+}
+function totalBetween(start,end, strategicOnly=false){
+  return sessionsWithRunning().filter(s=>s.end>start && s.start<end && (!strategicOnly || cat(s.categoryId).strategic))
+    .reduce((sum,s)=>sum + Math.max(0, Math.min(s.end,end)-Math.max(s.start,start)),0);
+}
+function startCategory(categoryId){
+  if(state.active){ stopActive(); }
+  state.active={categoryId,start:Date.now()}; saveState(); render();
+}
+function stopActive(){
+  if(!state.active) return;
+  const end=Date.now();
+  if(end-state.active.start>=1000){ state.sessions.push({id:uid(),categoryId:state.active.categoryId,start:state.active.start,end}); }
+  state.active=null; saveState(); render();
+}
+function deleteSession(id){
+  if(!confirm('¿Borrar esta sesión?')) return;
+  state.sessions=state.sessions.filter(s=>s.id!==id); saveState(); render();
+}
+function openEdit(id=null){
+  editingId=id; const s=id ? state.sessions.find(x=>x.id===id) : null;
+  document.getElementById('dialogTitle').textContent=id?'Editar sesión':'Añadir sesión manual';
+  document.getElementById('editCategory').value=s?.categoryId || 'ciplan';
+  const end=s?.end || Date.now(); const start=s?.start || (end-60*60000);
+  document.getElementById('editStart').value=localInputValue(start);
+  document.getElementById('editEnd').value=localInputValue(end);
+  document.getElementById('editDialog').showModal();
+}
+function saveEdit(){
+  const categoryId=document.getElementById('editCategory').value;
+  const start=new Date(document.getElementById('editStart').value).getTime();
+  const end=new Date(document.getElementById('editEnd').value).getTime();
+  if(!Number.isFinite(start)||!Number.isFinite(end)||end<=start){ alert('La hora de fin debe ser posterior a la de inicio.'); return; }
+  if(editingId){ const s=state.sessions.find(x=>x.id===editingId); Object.assign(s,{categoryId,start,end}); }
+  else state.sessions.push({id:uid(),categoryId,start,end});
+  saveState(); document.getElementById('editDialog').close(); render();
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(), app:'Career XP', version:1, data:state},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`career-xp-${new Date().toISOString().slice(0,10)}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+async function importData(file){
+  try {
+    const parsed=JSON.parse(await file.text()); const incoming=parsed.data || parsed;
+    if(!Array.isArray(incoming.sessions)) throw new Error();
+    if(!confirm(`Importar ${incoming.sessions.length} sesiones y sustituir los datos actuales?`)) return;
+    state={...defaultState(),...incoming}; saveState(); render(); alert('Datos importados.');
+  } catch { alert('No he podido leer ese respaldo de Career XP.'); }
+}
+function renderHero(){
+  const el=document.getElementById('activeHero');
+  if(!state.active){
+    el.className='hero inactive'; el.innerHTML=`<div class="eyebrow">Sin temporizador activo</div><div style="font-size:20px;font-weight:800;margin-top:5px">Elige un bloque y empieza.</div>`; return;
+  }
+  const c=cat(state.active.categoryId);
+  el.className='hero';
+  el.innerHTML=`<div class="active-label">Activo ahora</div><div class="active-name">${c.emoji} ${c.name}</div><div class="active-time" id="liveClock">${formatClock(Date.now()-state.active.start)}</div><div class="hero-actions"><button class="btn btn-primary" onclick="stopActive()">■ STOP</button></div>`;
+}
+function renderStats(){
+  const now=Date.now();
+  document.getElementById('todayTotal').textContent=formatDuration(totalBetween(dayStart(), now));
+  document.getElementById('weekStrategic').textContent=formatDuration(totalBetween(weekStart(), now, true));
+  document.getElementById('monthStrategic').textContent=formatDuration(totalBetween(monthStart(), now, true));
+  document.getElementById('allTotal').textContent=formatDuration(sessionsWithRunning().reduce((a,s)=>a+(s.end-s.start),0));
+}
+function renderCategories(){
+  const totals={}; CATEGORIES.forEach(c=>totals[c.id]=0);
+  sessionsWithRunning().forEach(s=>totals[s.categoryId]=(totals[s.categoryId]||0)+(s.end-s.start));
+  document.getElementById('categoryGrid').innerHTML=CATEGORIES.map(c=>`
+    <button class="category" onclick="startCategory('${c.id}')">
+      <div><div class="category-top"><span class="emoji">${c.emoji}</span>${c.strategic?'<span class="strategic-pill">ESTRATÉGICO</span>':''}<span class="play">▶</span></div><div class="category-name">${c.name}</div></div>
+      <div class="category-meta">${formatDuration(totals[c.id])} acumulado</div>
+    </button>`).join('');
+}
+function renderHistory(){
+  const sessions=[...state.sessions].sort((a,b)=>b.start-a.start);
+  document.getElementById('sessionCount').textContent=`${sessions.length} guardadas`;
+  const list=sessions.slice(0,8);
+  document.getElementById('recentHistory').innerHTML=list.length?list.map(s=>{
+    const c=cat(s.categoryId), d=new Date(s.start);
+    return `<div class="session"><div><div class="session-title">${c.emoji} ${c.name}</div><div class="session-sub">${d.toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'})} · ${d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}</div></div><div class="duration">${formatDuration(s.end-s.start)}</div><div><button class="icon-btn" onclick="openEdit('${s.id}')">✎</button> <button class="icon-btn" onclick="deleteSession('${s.id}')">×</button></div></div>`;
+  }).join(''):'<div class="empty">Todavía no hay sesiones. Pulsa una categoría y empieza a acumular XP.</div>';
+}
+function renderProgress(){
+  const totals={}; CATEGORIES.forEach(c=>totals[c.id]=0);
+  sessionsWithRunning().forEach(s=>totals[s.categoryId]=(totals[s.categoryId]||0)+(s.end-s.start));
+  const max=Math.max(...Object.values(totals),1);
+  document.getElementById('progressPanel').innerHTML=CATEGORIES.map(c=>{
+    const hours=totals[c.id]/3600000; const level=Math.floor(hours/10)+1; const pct=Math.max(2,(totals[c.id]/max)*100);
+    return `<div class="progress-row"><div class="progress-top"><span>${c.emoji} <strong>${c.name}</strong>${c.strategic?' · estratégico':''}</span><span>${hours.toFixed(1)} h · Nv. ${level}</span></div><div class="bar"><div class="fill" style="width:${pct}%"></div></div></div>`;
+  }).join('');
+  const weekMs=totalBetween(weekStart(),Date.now(),true), goalMs=state.weeklyGoalHours*3600000;
+  document.getElementById('weeklyGoalText').textContent=`${(weekMs/3600000).toFixed(1)} / ${state.weeklyGoalHours} h`;
+  document.getElementById('weeklyGoalBar').style.width=`${Math.min(100,(weekMs/goalMs)*100)||0}%`;
+}
+function render(){
+  document.getElementById('todayDate').textContent=new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('weeklyGoal').value=state.weeklyGoalHours;
+  renderHero(); renderStats(); renderCategories(); renderHistory(); renderProgress();
+}
+function init(){
+  document.getElementById('editCategory').innerHTML=CATEGORIES.map(c=>`<option value="${c.id}">${c.emoji} ${c.name}</option>`).join('');
+  document.querySelectorAll('.navbtn').forEach(btn=>btn.addEventListener('click',()=>{
+    document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b===btn));
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-'+btn.dataset.view).classList.add('active'); render();
+  }));
+  document.getElementById('saveGoal').addEventListener('click',()=>{ const n=Number(document.getElementById('weeklyGoal').value); if(n>0){state.weeklyGoalHours=n;saveState();render();} });
+  document.getElementById('exportBtn').addEventListener('click',exportData);
+  document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
+  document.getElementById('importFile').addEventListener('change',e=>{if(e.target.files[0])importData(e.target.files[0]); e.target.value='';});
+  document.getElementById('manualBtn').addEventListener('click',()=>openEdit());
+  document.getElementById('wipeBtn').addEventListener('click',()=>{if(confirm('Esto borrará TODOS los datos de Career XP en este dispositivo.')){state=defaultState();saveState();render();}});
+  document.getElementById('cancelEdit').addEventListener('click',()=>document.getElementById('editDialog').close());
+  document.getElementById('saveEdit').addEventListener('click',saveEdit);
+  render();
+  setInterval(()=>{
+    if(state.active){ const clock=document.getElementById('liveClock'); if(clock) clock.textContent=formatClock(Date.now()-state.active.start); renderStats(); renderProgress(); }
+  },1000);
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
+init();
+</script>
+</body>
+</html>
