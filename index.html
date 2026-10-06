@@ -103,9 +103,12 @@
     .training-day.today { border-color:var(--accent); }
     .training-day.trained { background:#17312a; border-color:#2d6653; }
     .training-day.trained .day-number { text-decoration:line-through; text-decoration-thickness:2px; text-decoration-color:#bdf5db; font-weight:900; }
+    .training-day.rested { background:#18283a; border-color:#355d7d; }
+    .training-day.rested .day-number { font-weight:900; }
     .training-day .check { position:absolute; right:4px; top:2px; font-size:10px; color:#bdf5db; font-weight:900; }
+    .training-day .rest-badge { position:absolute; right:4px; top:3px; font-size:8px; color:#b9ddff; font-weight:950; letter-spacing:.03em; }
     .training-day .note-dot { position:absolute; bottom:4px; width:4px; height:4px; border-radius:50%; background:var(--accent); }
-    .training-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:10px 0 14px; }
+    .training-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin:10px 0 14px; }
     .training-stat { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:12px 10px; }
     .training-stat strong { display:block; font-size:19px; }
     .training-stat span { color:var(--muted); font-size:11px; }
@@ -115,12 +118,19 @@
     .training-entry-date { font-weight:850; font-size:14px; text-transform:capitalize; }
     .training-entry-text { color:var(--muted); font-size:12px; margin-top:5px; line-height:1.4; white-space:pre-wrap; }
     .training-entry-label { color:#bdf5db; font-size:10px; font-weight:850; letter-spacing:.06em; text-transform:uppercase; }
-    .check-row { display:flex; align-items:center; gap:10px; background:var(--card-2); border:1px solid var(--line); border-radius:14px; padding:12px; margin-bottom:12px; }
-    .check-row input { width:22px; height:22px; flex:0 0 auto; }
-    .check-row label { color:var(--text); font-size:14px; }
+    .status-picker { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-bottom:14px; }
+    .status-option { position:relative; display:block; cursor:pointer; }
+    .status-option input { position:absolute; opacity:0; pointer-events:none; }
+    .status-option span { min-height:46px; display:flex; align-items:center; justify-content:center; text-align:center; border:1px solid var(--line); background:var(--card-2); color:var(--muted); border-radius:13px; padding:9px 7px; font-size:12px; font-weight:850; }
+    .status-option input:checked + span { color:var(--text); border-color:#6b7280; background:#292e38; }
+    .status-option.training-status input:checked + span { color:#d7ffed; border-color:#2d6653; background:#17312a; }
+    .status-option.rest-status input:checked + span { color:#d9eeff; border-color:#355d7d; background:#18283a; }
+    .status-option input:focus-visible + span { outline:2px solid var(--accent); outline-offset:2px; }
+    .rest-field { display:none; }
     .version { color:var(--muted); font-size:11px; margin-top:10px; }
 
     @media (min-width:700px) {
+      .training-stats { grid-template-columns:repeat(4,1fr); }
       .category-grid { grid-template-columns:repeat(3, minmax(0, 1fr)); }
       .stats { grid-template-columns:repeat(4,1fr); }
       .training-day { min-height:66px; }
@@ -167,9 +177,10 @@
   <main id="view-training" class="view">
     <div class="section-head"><h2>Entrenamiento</h2><small>Toca un día para marcarlo</small></div>
     <section class="training-stats">
-      <div class="training-stat"><strong id="trainingMonthCount">0</strong><span>Este mes</span></div>
-      <div class="training-stat"><strong id="trainingWeekCount">0</strong><span>Esta semana</span></div>
-      <div class="training-stat"><strong id="trainingTotalCount">0</strong><span>Total</span></div>
+      <div class="training-stat"><strong id="trainingMonthCount">0</strong><span>Entrenos · mes</span></div>
+      <div class="training-stat"><strong id="restMonthCount">0</strong><span>Descansos · mes</span></div>
+      <div class="training-stat"><strong id="trainingWeekCount">0</strong><span>Entrenos · semana</span></div>
+      <div class="training-stat"><strong id="trainingTotalCount">0</strong><span>Entrenos · total</span></div>
     </section>
     <section class="calendar-card">
       <div class="calendar-head">
@@ -183,7 +194,7 @@
       <div class="calendar-grid" id="calendarGrid"></div>
     </section>
 
-    <div class="section-head"><h2>Entrenos del mes</h2><small>Notas y sensaciones</small></div>
+    <div class="section-head"><h2>Registro del mes</h2><small>Entrenos, descansos y sensaciones</small></div>
     <section class="training-list" id="trainingList"></section>
   </main>
 
@@ -215,7 +226,7 @@
       <h3 class="danger-text">Borrar todos los datos</h3>
       <p>Elimina sesiones, temporizador activo, calendario de entrenamiento y preferencias de este dispositivo.</p>
       <div class="row"><button class="btn btn-danger" id="wipeBtn">Borrar todo</button></div>
-      <div class="version">Career XP · V2</div>
+      <div class="version">Career XP · V2.2</div>
     </section>
   </main>
 </div>
@@ -246,21 +257,30 @@
 
 <dialog id="trainingDialog">
   <h3 id="trainingDialogTitle">Entrenamiento</h3>
-  <div class="check-row">
-    <input id="trainingDone" type="checkbox" />
-    <label for="trainingDone">Entrené este día</label>
+  <div class="status-picker" role="radiogroup" aria-label="Tipo de día">
+    <label class="status-option training-status"><input type="radio" name="trainingStatus" value="trained" /><span>✓ Entreno</span></label>
+    <label class="status-option rest-status"><input type="radio" name="trainingStatus" value="rest" /><span>REST · Descanso</span></label>
+    <label class="status-option"><input type="radio" name="trainingStatus" value="none" /><span>Sin marcar</span></label>
   </div>
-  <div class="field">
-    <label for="trainingWork">Qué hice</label>
-    <textarea id="trainingWork" maxlength="400" placeholder="Ej.: bilateral: remo, flexiones, sentadilla y peso muerto…"></textarea>
+  <div id="trainingSpecificFields">
+    <div class="field">
+      <label for="trainingWork">Qué hice</label>
+      <textarea id="trainingWork" maxlength="400" placeholder="Ej.: bilateral: remo, flexiones, sentadilla y peso muerto…"></textarea>
+    </div>
+    <div class="field" style="margin-top:12px">
+      <label for="trainingMinutes">Tiempo (minutos, opcional)</label>
+      <input id="trainingMinutes" type="number" min="0" max="600" step="5" inputmode="numeric" placeholder="Ej.: 45" />
+    </div>
+  </div>
+  <div id="restSpecificFields" class="rest-field">
+    <div class="field">
+      <label for="restNotes">Cómo descansé</label>
+      <textarea id="restNotes" maxlength="400" placeholder="Ej.: descanso total, paseo suave, movilidad, dormí bien…"></textarea>
+    </div>
   </div>
   <div class="field" style="margin-top:12px">
     <label for="trainingFeel">Sensaciones</label>
-    <textarea id="trainingFeel" maxlength="400" placeholder="Ej.: bien de energía, cuello algo cargado, lumbar estable…"></textarea>
-  </div>
-  <div class="field" style="margin-top:12px">
-    <label for="trainingMinutes">Tiempo (minutos, opcional)</label>
-    <input id="trainingMinutes" type="number" min="0" max="600" step="5" inputmode="numeric" placeholder="Ej.: 45" />
+    <textarea id="trainingFeel" maxlength="400" placeholder="Ej.: energía, carga muscular, sueño, recuperación, molestias…"></textarea>
   </div>
   <div class="dialog-actions">
     <button class="btn btn-danger" id="deleteTraining">Borrar</button>
@@ -428,38 +448,60 @@ function renderProgress(){
   document.getElementById('weeklyGoalBar').style.width=`${Math.min(100,(weekMs/goalMs)*100)||0}%`;
 }
 
+function trainingStatus(entry){
+  if(!entry) return 'none';
+  if(entry.status==='rest') return 'rest';
+  if(entry.status==='trained' || entry.trained) return 'trained';
+  return 'none';
+}
+function setTrainingDialogMode(status){
+  document.getElementById('trainingSpecificFields').style.display=status==='trained' ? 'block' : 'none';
+  document.getElementById('restSpecificFields').style.display=status==='rest' ? 'block' : 'none';
+}
 function openTrainingDay(key){
   trainingEditingKey=key;
   const d=dateFromKey(key);
   const existing=state.trainingDays[key];
+  const status=existing ? trainingStatus(existing) : 'trained';
   document.getElementById('trainingDialogTitle').textContent=d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('trainingDone').checked=existing ? !!existing.trained : true;
+  const statusInput=document.querySelector(`input[name="trainingStatus"][value="${status}"]`);
+  if(statusInput) statusInput.checked=true;
   document.getElementById('trainingWork').value=existing?.work || '';
   document.getElementById('trainingFeel').value=existing?.feel || '';
   document.getElementById('trainingMinutes').value=existing?.minutes ?? '';
+  document.getElementById('restNotes').value=existing?.restNotes || '';
   document.getElementById('deleteTraining').style.display=existing ? 'inline-block' : 'none';
+  setTrainingDialogMode(status);
   document.getElementById('trainingDialog').showModal();
 }
 function saveTrainingDay(){
   if(!trainingEditingKey) return;
-  const trained=document.getElementById('trainingDone').checked;
+  const status=document.querySelector('input[name="trainingStatus"]:checked')?.value || 'none';
   const work=document.getElementById('trainingWork').value.trim();
   const feel=document.getElementById('trainingFeel').value.trim();
+  const restNotes=document.getElementById('restNotes').value.trim();
   const minutesRaw=document.getElementById('trainingMinutes').value.trim();
   const minutes=minutesRaw==='' ? null : Math.max(0,Math.min(600,Math.round(Number(minutesRaw) || 0)));
-  if(!trained && !work && !feel && minutes===null) delete state.trainingDays[trainingEditingKey];
-  else state.trainingDays[trainingEditingKey]={trained,work,feel,minutes,updatedAt:Date.now()};
+  if(status==='none' && !feel){
+    delete state.trainingDays[trainingEditingKey];
+  } else if(status==='trained'){
+    state.trainingDays[trainingEditingKey]={status:'trained',trained:true,work,feel,minutes,updatedAt:Date.now()};
+  } else if(status==='rest'){
+    state.trainingDays[trainingEditingKey]={status:'rest',trained:false,restNotes,feel,minutes:null,updatedAt:Date.now()};
+  } else {
+    state.trainingDays[trainingEditingKey]={status:'none',trained:false,feel,minutes:null,updatedAt:Date.now()};
+  }
   saveState(); document.getElementById('trainingDialog').close(); renderTraining();
 }
 function deleteTrainingDay(){
   if(!trainingEditingKey) return;
-  if(!confirm('¿Borrar el registro de entrenamiento de este día?')) return;
+  if(!confirm('¿Borrar el registro de este día?')) return;
   delete state.trainingDays[trainingEditingKey];
   saveState(); document.getElementById('trainingDialog').close(); renderTraining();
 }
-function trainingCountBetween(startDate,endDate){
+function statusCountBetween(startDate,endDate,status){
   return Object.entries(state.trainingDays).filter(([key,entry])=>{
-    if(!entry?.trained) return false;
+    if(trainingStatus(entry)!==status) return false;
     const d=dateFromKey(key);
     return d>=startDate && d<endDate;
   }).length;
@@ -474,29 +516,35 @@ function renderTraining(){
   const todayKey=dateKey(new Date());
   for(let day=1;day<=daysInMonth;day++){
     const d=new Date(y,m,day), key=dateKey(d), entry=state.trainingDays[key];
-    const trained=!!entry?.trained, hasNotes=!!(entry?.work||entry?.feel||entry?.minutes!==null&&entry?.minutes!==undefined);
-    html+=`<button class="training-day${trained?' trained':''}${key===todayKey?' today':''}" onclick="openTrainingDay('${key}')"><span class="day-number">${day}</span>${trained?'<span class="check">✓</span>':''}${hasNotes?'<span class="note-dot"></span>':''}</button>`;
+    const status=trainingStatus(entry);
+    const trained=status==='trained', rested=status==='rest';
+    const hasNotes=!!(entry?.work||entry?.feel||entry?.restNotes||(entry?.minutes!==null&&entry?.minutes!==undefined));
+    html+=`<button class="training-day${trained?' trained':''}${rested?' rested':''}${key===todayKey?' today':''}" onclick="openTrainingDay('${key}')"><span class="day-number">${day}</span>${trained?'<span class="check">✓</span>':''}${rested?'<span class="rest-badge">REST</span>':''}${hasNotes?'<span class="note-dot"></span>':''}</button>`;
   }
   document.getElementById('calendarGrid').innerHTML=html;
 
   const monthStartDate=new Date(y,m,1), nextMonthDate=new Date(y,m+1,1);
   const weekStartDate=new Date(weekStart()), nextWeekDate=new Date(weekStartDate); nextWeekDate.setDate(nextWeekDate.getDate()+7);
-  document.getElementById('trainingMonthCount').textContent=trainingCountBetween(monthStartDate,nextMonthDate);
-  document.getElementById('trainingWeekCount').textContent=trainingCountBetween(weekStartDate,nextWeekDate);
-  document.getElementById('trainingTotalCount').textContent=Object.values(state.trainingDays).filter(e=>e?.trained).length;
+  document.getElementById('trainingMonthCount').textContent=statusCountBetween(monthStartDate,nextMonthDate,'trained');
+  document.getElementById('restMonthCount').textContent=statusCountBetween(monthStartDate,nextMonthDate,'rest');
+  document.getElementById('trainingWeekCount').textContent=statusCountBetween(weekStartDate,nextWeekDate,'trained');
+  document.getElementById('trainingTotalCount').textContent=Object.values(state.trainingDays).filter(e=>trainingStatus(e)==='trained').length;
 
   const monthEntries=Object.entries(state.trainingDays)
-    .filter(([key,entry])=>{ const d=dateFromKey(key); return entry?.trained && d.getFullYear()===y && d.getMonth()===m; })
+    .filter(([key,entry])=>{ const d=dateFromKey(key); return trainingStatus(entry)!=='none' && d.getFullYear()===y && d.getMonth()===m; })
     .sort((a,b)=>b[0].localeCompare(a[0]));
   document.getElementById('trainingList').innerHTML=monthEntries.length?monthEntries.map(([key,entry])=>{
-    const d=dateFromKey(key);
+    const d=dateFromKey(key), status=trainingStatus(entry), isRest=status==='rest';
     const text=[];
-    if(entry.work) text.push(`<div class="training-entry-text"><span class="training-entry-label">Qué hice</span><br>${escapeHtml(entry.work)}</div>`);
+    if(!isRest && entry.work) text.push(`<div class="training-entry-text"><span class="training-entry-label">Qué hice</span><br>${escapeHtml(entry.work)}</div>`);
+    if(isRest && entry.restNotes) text.push(`<div class="training-entry-text"><span class="training-entry-label" style="color:#b9ddff">Cómo descansé</span><br>${escapeHtml(entry.restNotes)}</div>`);
     if(entry.feel) text.push(`<div class="training-entry-text"><span class="training-entry-label">Sensaciones</span><br>${escapeHtml(entry.feel)}</div>`);
-    if(entry.minutes!==null && entry.minutes!==undefined) text.push(`<div class="training-entry-text"><span class="training-entry-label">Tiempo</span><br>${formatTrainingMinutes(entry.minutes)}</div>`);
+    if(!isRest && entry.minutes!==null && entry.minutes!==undefined) text.push(`<div class="training-entry-text"><span class="training-entry-label">Tiempo</span><br>${formatTrainingMinutes(entry.minutes)}</div>`);
     if(!text.length) text.push('<div class="training-entry-text">Sin notas.</div>');
-    return `<div class="training-entry" onclick="openTrainingDay('${key}')"><div class="training-entry-top"><div class="training-entry-date">✓ ${d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'short'})}</div><span style="color:var(--muted)">✎</span></div>${text.join('')}</div>`;
-  }).join(''):'<div class="empty">No has marcado ningún entrenamiento en este mes.</div>';
+    const prefix=isRest?'REST':'✓';
+    const prefixStyle=isRest?'color:#b9ddff':'color:#bdf5db';
+    return `<div class="training-entry" onclick="openTrainingDay('${key}')"><div class="training-entry-top"><div class="training-entry-date"><span style="${prefixStyle}">${prefix}</span> ${d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'short'})}</div><span style="color:var(--muted)">✎</span></div>${text.join('')}</div>`;
+  }).join(''):'<div class="empty">No hay entrenos ni descansos registrados en este mes.</div>';
 }
 function formatTrainingMinutes(value){
   const minutes=Math.max(0,Math.round(Number(value)||0));
@@ -531,6 +579,7 @@ function init(){
   document.getElementById('saveEdit').addEventListener('click',saveEdit);
   document.getElementById('prevMonth').addEventListener('click',()=>{ calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()-1,1); renderTraining(); });
   document.getElementById('nextMonth').addEventListener('click',()=>{ calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+1,1); renderTraining(); });
+  document.querySelectorAll('input[name="trainingStatus"]').forEach(input=>input.addEventListener('change',()=>setTrainingDialogMode(input.value)));
   document.getElementById('cancelTraining').addEventListener('click',()=>document.getElementById('trainingDialog').close());
   document.getElementById('saveTraining').addEventListener('click',saveTrainingDay);
   document.getElementById('deleteTraining').addEventListener('click',deleteTrainingDay);
