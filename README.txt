@@ -1,31 +1,27 @@
-CAREER XP — V1
+CAREER XP — V2.3
 
-Qué hace:
-- Un único temporizador activo.
-- Categorías: Ciplan/Cálculo, BIM, Procesos, Formación/Delegación, Técnico-comercial, Producción y Coordinación.
-- Totales de hoy, semana estratégica, mes estratégico y total.
-- Progreso acumulado por categoría y niveles (1 nivel cada 10 h).
-- Objetivo semanal estratégico configurable (5 h por defecto).
-- Historial de sesiones con edición y borrado.
-- Añadir sesiones manualmente.
-- Exportar/importar respaldo JSON.
-- El temporizador sigue siendo correcto aunque cierres la app: guarda la hora de inicio.
-- Service Worker para funcionamiento offline tras la primera carga.
+CAMBIOS DE ESTA VERSIÓN
+- Nuevo estado FISIO en el calendario de Entreno.
+- FISIO aparece en naranja para distinguirlo de Entreno (verde) y REST (azul).
+- Los días de fisio permiten guardar:
+  - Qué se trabajó en fisio
+  - Sensaciones
+- El resumen mensual muestra también el número de sesiones de fisio.
+- El registro del mes reúne entrenos, descansos y fisio con sus notas.
+- Se mantiene compatibilidad con todos los datos guardados en versiones anteriores.
 
-IMPORTANTE:
-Los datos se guardan en localStorage del navegador/web app. No se sincronizan entre dispositivos. Exporta un respaldo JSON periódicamente.
+DATOS
+Se conserva la misma clave de almacenamiento de Career XP V1 (careerXP.v1), así que actualizar los archivos del MISMO GitHub Pages no borra tus registros del iPhone.
+Los datos continúan guardándose localmente en la web app del dispositivo. Exporta un respaldo JSON de vez en cuando.
 
-Para instalar en iPhone:
-1) Publica esta carpeta como un sitio HTTPS (por ejemplo GitHub Pages).
-2) Abre la URL PUBLICADA con Safari en el iPhone.
-3) Compartir > Añadir a pantalla de inicio.
-4) Activa "Abrir como app web".
-5) Añadir.
+CÓMO ACTUALIZAR TU GITHUB PAGES ACTUAL
+1) En tu repositorio actual de Career XP, sustituye los archivos por los de esta carpeta.
+2) Como mínimo sustituye index.html y sw.js. Puedes reemplazar todos sin problema.
+3) Deben quedar en la raíz: index.html, sw.js, manifest.webmanifest y los iconos.
+4) Haz Commit changes.
+5) No cambies Settings > Pages: debe seguir main + /(root).
+6) Espera a que Actions / Pages build and deployment termine en verde.
+7) Abre la URL en Safari y recarga una vez; después cierra Career XP por completo y vuelve a abrir el icono.
 
-Para GitHub Pages:
-1) Crea un repositorio nuevo en github.com.
-2) Sube TODOS los archivos de esta carpeta a la raíz del repositorio.
-3) Settings > Pages.
-4) En Build and deployment elige Deploy from a branch.
-5) Selecciona main y /(root), y guarda.
-6) GitHub mostrará la URL pública de Pages. Ábrela en Safari del iPhone.
+IMPORTANTE
+No borres datos de Safari para actualizar. Esta versión usa un nombre de caché nuevo (career-xp-v2-3) para forzar la renovación del contenido sin tocar tus datos locales.
