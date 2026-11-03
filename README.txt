@@ -1,27 +1,28 @@
-CAREER XP — V2.3
+CAREER XP — V2.4 — MIS AFICIONES
 
-CAMBIOS DE ESTA VERSIÓN
-- Nuevo estado FISIO en el calendario de Entreno.
-- FISIO aparece en naranja para distinguirlo de Entreno (verde) y REST (azul).
-- Los días de fisio permiten guardar:
-  - Qué se trabajó en fisio
-  - Sensaciones
-- El resumen mensual muestra también el número de sesiones de fisio.
-- El registro del mes reúne entrenos, descansos y fisio con sus notas.
-- Se mantiene compatibilidad con todos los datos guardados en versiones anteriores.
+NOVEDAD
+- Nueva pestaña Aficiones, con los 7 pilares y todas las actividades de la lista proporcionada.
+- Desplegables por pilar, casillas por actividad y notas opcionales para cada registro.
+- Día de la semana opcional por actividad.
+- Navegación por semanas (lunes a domingo), resumen de actividades y pilares.
+- Gráfico de las últimas 6 semanas y nota general semanal.
+- Las aficiones se guardan en el mismo respaldo JSON que el resto de datos.
+- Se mantiene Entreno / REST / FISIO y las 3 categorías de trabajo sin cambios.
+- Incluye el icono dorado de progreso y tiempo elegido para la app.
 
-DATOS
-Se conserva la misma clave de almacenamiento de Career XP V1 (careerXP.v1), así que actualizar los archivos del MISMO GitHub Pages no borra tus registros del iPhone.
-Los datos continúan guardándose localmente en la web app del dispositivo. Exporta un respaldo JSON de vez en cuando.
+DATOS Y COMPATIBILIDAD
+Misma clave localStorage de las versiones anteriores: careerXP.v1.
+Se añade el campo hobbyWeeks sin borrar sessions, trainingDays ni preferencias.
+Antes de actualizar: Career XP > Ajustes > Exportar JSON y guardar la copia en Archivos.
+NO borres el icono viejo, la web app ni los datos de Safari para forzar la actualización.
 
-CÓMO ACTUALIZAR TU GITHUB PAGES ACTUAL
-1) En tu repositorio actual de Career XP, sustituye los archivos por los de esta carpeta.
-2) Como mínimo sustituye index.html y sw.js. Puedes reemplazar todos sin problema.
-3) Deben quedar en la raíz: index.html, sw.js, manifest.webmanifest y los iconos.
-4) Haz Commit changes.
-5) No cambies Settings > Pages: debe seguir main + /(root).
-6) Espera a que Actions / Pages build and deployment termine en verde.
-7) Abre la URL en Safari y recarga una vez; después cierra Career XP por completo y vuelve a abrir el icono.
+CÓMO ACTUALIZAR
+1. Descomprime el ZIP en Archivos.
+2. En GitHub abre el MISMO repositorio Career-xp-, rama main, raíz.
+3. Sube index.html y sw.js nuevos, reemplazando los existentes; si quieres el icono dorado sube también icon-180.png, icon-192.png e icon-512.png.
+4. Haz Commit changes. Pages se redesplegará automáticamente desde main y /(root).
+5. Abre la URL en Safari y recarga. Cierra por completo Career XP y vuelve a abrirla.
+6. La opción Aficiones debe aparecer en la barra inferior.
 
 IMPORTANTE
-No borres datos de Safari para actualizar. Esta versión usa un nombre de caché nuevo (career-xp-v2-3) para forzar la renovación del contenido sin tocar tus datos locales.
+Los datos se guardan localmente en el contexto de la web app instalada en tu iPhone; no se sincronizan automáticamente con otros dispositivos. Exporta JSON de forma periódica.

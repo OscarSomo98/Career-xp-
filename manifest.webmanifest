@@ -1,7 +1,7 @@
 {
   "name": "Career XP",
   "short_name": "Career XP",
-  "description": "Cronómetro de progreso profesional para registrar bloques de trabajo y aprendizaje.",
+  "description": "Registro personal de aprendizaje, entrenamiento y aficiones por semanas.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -68,7 +68,7 @@
     .icon-btn { width:34px; height:34px; border-radius:10px; border:1px solid var(--line); background:var(--card-2); color:var(--text); cursor:pointer; }
     .empty { color:var(--muted); text-align:center; padding:28px 10px; background:var(--card); border:1px dashed var(--line); border-radius:16px; }
     .bottom { position:fixed; left:0; right:0; bottom:0; padding:8px 12px calc(8px + var(--safe-bottom)); background:rgba(13,15,20,.92); backdrop-filter: blur(18px); border-top:1px solid var(--line); }
-    .bottom-inner { max-width:760px; margin:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:5px; }
+    .bottom-inner { max-width:760px; margin:auto; display:grid; grid-template-columns:repeat(5,1fr); gap:3px; }
     .navbtn { border:0; background:transparent; color:var(--muted); padding:8px 4px; border-radius:12px; font-size:11px; font-weight:700; }
     .navbtn.active { color:var(--text); background:var(--card); }
     .view { display:none; }
@@ -139,6 +139,59 @@
       .stats { grid-template-columns:repeat(4,1fr); }
       .training-day { min-height:66px; }
     }
+
+    /* Aficiones: selección semanal sin objetivos obligatorios */
+    .hobby-intro { color:var(--muted); font-size:13px; line-height:1.5; margin:2px 2px 14px; }
+    .hobby-weekbar { display:flex; align-items:center; gap:6px; padding:12px; background:var(--card); border:1px solid var(--line); border-radius:18px; margin-bottom:12px; }
+    .hobby-week-title { flex:1; min-width:0; text-align:center; font-size:14px; font-weight:800; }
+    .hobby-week-subtitle { color:var(--muted); font-size:11px; margin-top:3px; }
+    .hobby-arrow { width:40px; height:42px; flex:0 0 40px; background:var(--card-2); border:1px solid var(--line); border-radius:12px; color:var(--text); font-size:22px; }
+    .hobby-today { width:100%; padding:9px; background:transparent; color:var(--accent); border:0; font-size:12px; font-weight:750; margin:-2px 0 10px; }
+    .hobby-metrics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-bottom:12px; }
+    .hobby-metric { background:var(--card); border:1px solid var(--line); border-radius:15px; padding:13px; }
+    .hobby-metric b { display:block; font-size:25px; letter-spacing:-.03em; }
+    .hobby-metric span { color:var(--muted); font-size:12px; }
+    .hobby-pills { display:flex; gap:6px; margin:12px 0 5px; }
+    .hobby-pills span { flex:1; height:9px; border-radius:99px; background:var(--card-2); border:1px solid var(--line); }
+    .hobby-pills span.on { background:var(--pill-color); border-color:var(--pill-color); }
+    .hobby-caption { color:var(--muted); font-size:11px; margin:7px 0 14px; }
+    .hobby-pillar { border:1px solid var(--line); background:var(--card); border-radius:17px; margin-bottom:9px; overflow:hidden; }
+    .hobby-pillar[open] { border-color:#3b485b; }
+    .hobby-pillar summary { list-style:none; display:flex; align-items:center; gap:11px; padding:14px 12px; cursor:pointer; min-height:65px; }
+    .hobby-pillar summary::-webkit-details-marker { display:none; }
+    .hobby-pillar-symbol { width:40px; height:40px; border-radius:13px; background:var(--color-bg); display:grid; place-items:center; font-size:20px; flex-shrink:0; }
+    .hobby-pillar-label { flex:1; min-width:0; }
+    .hobby-pillar-title { display:block; font-weight:800; line-height:1.25; font-size:14px; }
+    .hobby-pillar-small { display:block; color:var(--muted); font-size:12px; margin-top:4px; }
+    .hobby-pillar-progress { display:block; height:3px; background:var(--card-2); border-radius:99px; margin-top:7px; overflow:hidden; }
+    .hobby-pillar-progress > span { display:block; height:100%; background:var(--color); border-radius:99px; }
+    .hobby-chevron { color:var(--muted); font-size:19px; transform:rotate(0); transition:transform .15s; }
+    .hobby-pillar[open] .hobby-chevron { transform:rotate(90deg); }
+    .hobby-pillar-list { padding:0 12px 12px; border-top:1px solid var(--line); }
+    .hobby-item { padding:12px 0; border-bottom:1px solid var(--line); }
+    .hobby-item:last-child { border-bottom:0; }
+    .hobby-item-top { display:flex; align-items:flex-start; gap:10px; cursor:pointer; color:var(--text); }
+    .hobby-item-check { -webkit-appearance:none; appearance:none; width:24px; height:24px; border:2px solid #667084; border-radius:8px; flex:0 0 24px; padding:0; margin:0; background:#20242d; position:relative; cursor:pointer; }
+    .hobby-item-check:checked { background:var(--item-color); border-color:var(--item-color); }
+    .hobby-item-check:checked::after { content:'✓'; display:block; position:absolute; inset:-1px 0 0; color:#10131a; font-weight:950; text-align:center; font-size:17px; }
+    .hobby-item-check:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+    .hobby-item-label { flex:1; line-height:1.4; font-size:13px; }
+    .hobby-explore { display:inline-block; font-size:9px; color:#f8d9a2; border:1px solid #765b31; border-radius:20px; padding:2px 5px; margin-left:5px; white-space:nowrap; vertical-align:middle; }
+    .hobby-item-fields { margin:11px 0 0 34px; display:flex; flex-direction:column; gap:9px; }
+    .hobby-item-fields label { font-size:11px; }
+    .hobby-item-fields textarea { min-height:66px; font-size:16px; }
+    .hobby-item-fields select { font-size:16px; }
+    .hobby-note-panel { margin-top:15px; }
+    .hobby-note-panel textarea { min-height:84px; }
+    .hobby-trend { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:7px; height:115px; align-items:end; padding:8px 0 0; }
+    .hobby-trend button { display:flex; flex-direction:column; justify-content:end; align-items:center; gap:5px; color:var(--muted); font-size:10px; border:0; background:transparent; padding:0; min-width:0; cursor:pointer; }
+    .hobby-trend .hobby-trend-bar { width:min(100%,29px); height:var(--bar-height); min-height:5px; background:#465367; border-radius:7px 7px 3px 3px; }
+    .hobby-trend button.active .hobby-trend-bar { background:var(--accent); }
+    .hobby-trend button.active { color:var(--text); }
+    .hobby-trend button:focus-visible { outline:2px solid var(--accent); border-radius:8px; }
+    .hobby-trend .hobby-trend-count { font-weight:800; }
+    .hobby-help { margin-top:8px; color:var(--muted); font-size:12px; line-height:1.5; }
+
   </style>
 </head>
 <body>
@@ -203,6 +256,37 @@
     <section class="training-list" id="trainingList"></section>
   </main>
 
+
+  <main id="view-hobbies" class="view">
+    <div class="section-head"><h2>Mis aficiones</h2><small>Tu brújula semanal</small></div>
+    <p class="hobby-intro">Abre un pilar, marca lo que has disfrutado y anota cómo fue. Esto es un recordatorio de posibilidades, no una lista de obligaciones.</p>
+    <section class="hobby-weekbar" aria-label="Seleccionar semana">
+      <button class="hobby-arrow" id="hobbyPrevWeek" aria-label="Semana anterior">‹</button>
+      <div class="hobby-week-title" id="hobbyWeekTitle"></div>
+      <button class="hobby-arrow" id="hobbyNextWeek" aria-label="Semana siguiente">›</button>
+    </section>
+    <button class="hobby-today" id="hobbyCurrentWeek">Ir a esta semana</button>
+    <section class="hobby-metrics" aria-label="Resumen de aficiones">
+      <div class="hobby-metric"><b id="hobbyActivitiesCount">0</b><span>Actividades esta semana</span></div>
+      <div class="hobby-metric"><b id="hobbyPillarsCount">0/7</b><span>Pilares explorados</span></div>
+    </section>
+    <div class="hobby-pills" id="hobbyPillMeter" aria-label="Pilares activos de la semana"></div>
+    <p class="hobby-caption">Cada segmento representa uno de tus siete pilares.</p>
+    <div class="section-head"><h2>Los 7 pilares</h2><small>Toca para desplegar</small></div>
+    <section id="hobbyPillarList"></section>
+    <section class="panel hobby-note-panel">
+      <h3>Balance de la semana</h3>
+      <p>Una idea que quieras recordar, algo que hayas disfrutado o un plan que te apetezca retomar.</p>
+      <div class="field" style="margin-top:12px"><label for="hobbyWeekNote">Nota general · opcional</label><textarea id="hobbyWeekNote" maxlength="1000" placeholder="Esta semana me he dado cuenta de que…"></textarea></div>
+    </section>
+    <section class="panel">
+      <h3>Últimas seis semanas</h3>
+      <p>Actividades diferentes marcadas cada semana. Pulsa una columna para revisar sus registros.</p>
+      <div class="hobby-trend" id="hobbyTrend"></div>
+      <p class="hobby-help">No hace falta tocar los siete pilares todas las semanas. La finalidad es que no se te olviden las opciones que disfrutas.</p>
+    </section>
+  </main>
+
   <main id="view-settings" class="view">
     <div class="section-head"><h2>Ajustes</h2><small>Simple a propósito</small></div>
     <section class="panel">
@@ -215,7 +299,7 @@
     </section>
     <section class="panel">
       <h3>Respaldo</h3>
-      <p>Los datos viven en este navegador. El respaldo incluye ahora tanto las horas de Career XP como el calendario de entrenamiento.</p>
+      <p>Los datos viven en este navegador. El respaldo incluye ahora las horas de Career XP, el calendario de entrenamiento y los registros semanales de aficiones.</p>
       <div class="row">
         <button class="btn btn-secondary" id="exportBtn">Exportar JSON</button>
         <button class="btn btn-secondary" id="importBtn">Importar JSON</button>
@@ -229,9 +313,9 @@
     </section>
     <section class="panel">
       <h3 class="danger-text">Borrar todos los datos</h3>
-      <p>Elimina sesiones, temporizador activo, calendario de entrenamiento y preferencias de este dispositivo.</p>
+      <p>Elimina sesiones, temporizador activo, calendario de entrenamiento, aficiones y preferencias de este dispositivo.</p>
       <div class="row"><button class="btn btn-danger" id="wipeBtn">Borrar todo</button></div>
-      <div class="version">Career XP · V2.3</div>
+      <div class="version">Career XP · V2.4</div>
     </section>
   </main>
 </div>
@@ -241,6 +325,7 @@
     <button class="navbtn active" data-view="timer">⏱<br>Timer</button>
     <button class="navbtn" data-view="progress">📈<br>Progreso</button>
     <button class="navbtn" data-view="training">🏋️<br>Entreno</button>
+    <button class="navbtn" data-view="hobbies">🧭<br>Aficiones</button>
     <button class="navbtn" data-view="settings">⚙️<br>Ajustes</button>
   </div>
 </nav>
@@ -309,6 +394,8 @@ const CATEGORIES = [
   {id:'process', name:'Procesos / Herramientas', emoji:'⚙️', strategic:true},
 ];
 
+const HOBBY_PILLARS = [{"id":"crear","name":"Inventar, crear y construir","emoji":"🛠️","color":"#edb96e","bg":"#33281d","activities":[{"id":"crear-1","name":"Electrónica y proyectos con Arduino","explore":false},{"id":"crear-2","name":"Inventar mecanismos y soluciones a problemas","explore":false},{"id":"crear-3","name":"Automatizar cosas mediante motores, sensores y circuitos","explore":false},{"id":"crear-4","name":"Diseñar pequeños mundos o escenarios interactivos","explore":false},{"id":"crear-5","name":"Construir terrarios y ecosistemas en miniatura","explore":false},{"id":"crear-6","name":"Diseñar cascadas, trampillas y mecanismos automáticos","explore":false},{"id":"crear-7","name":"Aprender robótica y experimentar","explore":false},{"id":"crear-8","name":"Diseñar herramientas y automatizaciones con programación","explore":false},{"id":"crear-9","name":"Aprender cómo funcionan los componentes electrónicos","explore":false},{"id":"crear-10","name":"Cuidar plantas, reproducir esquejes y experimentar con ellas","explore":false},{"id":"crear-11","name":"Impresión 3D para fabricar mis propias piezas y robots","explore":true}]},{"id":"naturaleza","name":"Naturaleza, animales y exploración","emoji":"🌿","color":"#89d3a5","bg":"#193128","activities":[{"id":"naturaleza-1","name":"Hacer rutas de senderismo","explore":false},{"id":"naturaleza-2","name":"Ir de aventura con mi perro","explore":false},{"id":"naturaleza-3","name":"Salir solo a explorar lugares desconocidos","explore":false},{"id":"naturaleza-4","name":"Buscar y observar animales salvajes","explore":false},{"id":"naturaleza-5","name":"Buscar camaleones y otros animales nocturnos","explore":false},{"id":"naturaleza-6","name":"Investigar lugares donde encontrar fauna interesante","explore":false},{"id":"naturaleza-7","name":"Descubrir paisajes, montañas, bosques y espacios naturales","explore":false},{"id":"naturaleza-8","name":"Pasear por la naturaleza sin un objetivo concreto","explore":false},{"id":"naturaleza-9","name":"Conocer zonas naturales de otras provincias","explore":false},{"id":"naturaleza-10","name":"Organizar pequeñas expediciones por mi cuenta","explore":false},{"id":"naturaleza-11","name":"Vías ferratas y más actividades de aventura en montaña","explore":true}]},{"id":"mar","name":"Mar y actividades acuáticas","emoji":"🌊","color":"#80d6f1","bg":"#1c3040","activities":[{"id":"mar-1","name":"Pesca submarina","explore":false},{"id":"mar-2","name":"Snorkel","explore":false},{"id":"mar-3","name":"Apnea","explore":false},{"id":"mar-4","name":"Explorar fondos marinos","explore":false},{"id":"mar-5","name":"Observar peces y animales marinos","explore":false},{"id":"mar-6","name":"Descubrir calas y zonas de agua cristalina","explore":false},{"id":"mar-7","name":"Visitar islas y zonas costeras","explore":false},{"id":"mar-8","name":"Grabar experiencias submarinas con la GoPro","explore":false},{"id":"mar-9","name":"Investigar buenos lugares donde bucear o pescar","explore":false}]},{"id":"viajar","name":"Viajar, vivir experiencias y socializar","emoji":"🧳","color":"#eab4e9","bg":"#322638","activities":[{"id":"viajar-1","name":"Viajar por España y conocer sitios nuevos","explore":false},{"id":"viajar-2","name":"Hacer escapadas de fin de semana","explore":false},{"id":"viajar-3","name":"Viajar al extranjero","explore":false},{"id":"viajar-4","name":"Viajar como mochilero y con poco presupuesto","explore":false},{"id":"viajar-5","name":"Conocer gente nueva durante los viajes","explore":false},{"id":"viajar-6","name":"Apuntarme solo a actividades grupales","explore":false},{"id":"viajar-7","name":"Hacer actividades de aventura con desconocidos","explore":false},{"id":"viajar-8","name":"Descubrir deportes o hobbies donde pueda socializar","explore":false},{"id":"viajar-9","name":"Hacer planes improvisados con amigos","explore":false},{"id":"viajar-10","name":"Conocer otras culturas y formas de vivir","explore":false},{"id":"viajar-11","name":"Explorar lugares poco turísticos","explore":false},{"id":"viajar-12","name":"Viajes para gente que viaja sola y actividades sociales recurrentes","explore":true}]},{"id":"videojuegos","name":"Videojuegos y entretenimiento","emoji":"🎮","color":"#b6aff5","bg":"#282740","activities":[{"id":"videojuegos-1","name":"World of Warcraft, especialmente PvP","explore":false},{"id":"videojuegos-2","name":"Arenas, campos de batalla y jugar con amigos","explore":false},{"id":"videojuegos-3","name":"WoW Classic y experiencias de progresión","explore":false},{"id":"videojuegos-4","name":"Juegos roguelike","explore":false},{"id":"videojuegos-5","name":"Juegos incrementales","explore":false},{"id":"videojuegos-6","name":"Teamfight Tactics","explore":false},{"id":"videojuegos-7","name":"Juegos de progresión, estrategia y optimización","explore":false},{"id":"videojuegos-8","name":"Descubrir videojuegos nuevos","explore":false},{"id":"videojuegos-9","name":"Jugar tranquilamente sin objetivos competitivos","explore":false},{"id":"videojuegos-10","name":"Ver películas y disfrutar de tardes de descanso","explore":false}]},{"id":"deporte","name":"Deporte y actividad física","emoji":"🏃","color":"#f5aa8d","bg":"#38271e","activities":[{"id":"deporte-1","name":"Entrenamiento de fuerza","explore":false},{"id":"deporte-2","name":"Calistenia y ejercicios con peso corporal","explore":false},{"id":"deporte-3","name":"Mejorar mi condición física","explore":false},{"id":"deporte-4","name":"Aprender ejercicios y técnicas de entrenamiento","explore":false},{"id":"deporte-5","name":"Pádel","explore":false},{"id":"deporte-6","name":"Caminar","explore":false},{"id":"deporte-7","name":"Actividades deportivas al aire libre","explore":false},{"id":"deporte-8","name":"Superar pequeños retos físicos","explore":false},{"id":"deporte-9","name":"Mantener una rutina de movimiento y bienestar","explore":false}]},{"id":"otros","name":"Otros intereses y pequeños placeres","emoji":"✨","color":"#f0d998","bg":"#353123","activities":[{"id":"otros-1","name":"Cocinar recetas nuevas","explore":false},{"id":"otros-2","name":"Hacer barbacoas y experimentar con salsas","explore":false},{"id":"otros-3","name":"Aprender habilidades prácticas","explore":false},{"id":"otros-4","name":"Investigar temas técnicos por curiosidad","explore":false},{"id":"otros-5","name":"Diseñar o imaginar tatuajes con significado personal","explore":false},{"id":"otros-6","name":"Resolver problemas mediante ingenio","explore":false},{"id":"otros-7","name":"Aprender cosas nuevas de manera autodidacta","explore":false},{"id":"otros-8","name":"Disfrutar de una tarde tranquila en casa","explore":false},{"id":"otros-9","name":"Tener conversaciones interesantes y reflexionar","explore":false}]}];
+
 // Metadatos de categorías antiguas para no corromper el historial si ya las habías usado.
 const LEGACY_CATEGORIES = [
   {id:'delegation', name:'Formación / Delegación', emoji:'👥', strategic:true},
@@ -324,12 +411,13 @@ let editingId = null;
 let trainingEditingKey = null;
 const nowForCalendar = new Date();
 let calendarCursor = new Date(nowForCalendar.getFullYear(), nowForCalendar.getMonth(), 1);
+let hobbyWeekCursor = dateKey(new Date(weekStart()));
 
-function defaultState(){ return {sessions:[], active:null, weeklyGoalHours:5, trainingDays:{}}; }
+function defaultState(){ return {sessions:[], active:null, weeklyGoalHours:5, trainingDays:{}, hobbyWeeks:{}}; }
 function loadState(){
   try {
     const loaded=JSON.parse(localStorage.getItem(KEY))||{};
-    return {...defaultState(), ...loaded, trainingDays: loaded.trainingDays || {}};
+    return {...defaultState(), ...loaded, trainingDays: loaded.trainingDays || {}, hobbyWeeks: loaded.hobbyWeeks || {}};
   } catch { return defaultState(); }
 }
 function saveState(){ localStorage.setItem(KEY, JSON.stringify(state)); }
@@ -402,7 +490,7 @@ function saveEdit(){
   saveState(); document.getElementById('editDialog').close(); render();
 }
 function exportData(){
-  const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(), app:'Career XP', version:2, data:state},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(), app:'Career XP', version:3, data:state},null,2)],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`career-xp-${new Date().toISOString().slice(0,10)}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
 async function importData(file){
@@ -410,7 +498,7 @@ async function importData(file){
     const parsed=JSON.parse(await file.text()); const incoming=parsed.data || parsed;
     if(!Array.isArray(incoming.sessions)) throw new Error();
     if(!confirm(`Importar ${incoming.sessions.length} sesiones y sustituir los datos actuales?`)) return;
-    state={...defaultState(),...incoming,trainingDays:incoming.trainingDays||{}}; saveState(); render(); alert('Datos importados.');
+    state={...defaultState(),...incoming,trainingDays:incoming.trainingDays||{},hobbyWeeks:incoming.hobbyWeeks||{}}; saveState(); render(); alert('Datos importados.');
   } catch { alert('No he podido leer ese respaldo de Career XP.'); }
 }
 function renderHero(){
@@ -577,10 +665,125 @@ function escapeHtml(text){
   return String(text).replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
 }
 
+
+// Calendario semanal de aficiones. Independiente del calendario de Entreno.
+function currentHobbyWeek(){
+  if(!state.hobbyWeeks || typeof state.hobbyWeeks!=='object' || Array.isArray(state.hobbyWeeks)) state.hobbyWeeks={};
+  return state.hobbyWeeks[hobbyWeekCursor] || {activities:{}, note:''};
+}
+function editableHobbyWeek(){
+  if(!state.hobbyWeeks[hobbyWeekCursor]) state.hobbyWeeks[hobbyWeekCursor]={activities:{},note:''};
+  if(!state.hobbyWeeks[hobbyWeekCursor].activities) state.hobbyWeeks[hobbyWeekCursor].activities={};
+  return state.hobbyWeeks[hobbyWeekCursor];
+}
+function weekDate(weekKey,days){
+  const d=dateFromKey(weekKey); d.setDate(d.getDate()+days); return d;
+}
+function shiftHobbyWeek(byWeeks){
+  hobbyWeekCursor=dateKey(weekDate(hobbyWeekCursor,byWeeks*7));
+  renderHobbies();
+}
+function changeHobbyWeek(weekKey){
+  hobbyWeekCursor=weekKey;
+  renderHobbies();
+}
+function hobbyChecked(week, id){return !!(week?.activities?.[id]?.checked);}
+function hobbyWeekCount(week){
+  return Object.values(week?.activities||{}).filter(a=>a && a.checked).length;
+}
+function hobbyWeekActivePillars(week){
+  return HOBBY_PILLARS.filter(p=>p.activities.some(a=>hobbyChecked(week,a.id))).length;
+}
+function hobbyWeekDateOptions(selected){
+  const days=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+  return '<option value="">Día no indicado</option>'+days.map((day,i)=>{
+    const key=dateKey(weekDate(hobbyWeekCursor,i));
+    return `<option value="${key}" ${selected===key?'selected':''}>${day} ${weekDate(hobbyWeekCursor,i).getDate()}</option>`;
+  }).join('');
+}
+function hobbyWeekText(weekKey){
+  const a=dateFromKey(weekKey),b=weekDate(weekKey,6);
+  const fst=a.toLocaleDateString('es-ES',{day:'numeric',month:'short'});
+  const snd=b.toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'});
+  return `${fst} — ${snd}`;
+}
+function getExpandedPillars(){
+  return new Set([...document.querySelectorAll('#hobbyPillarList details[open]')].map(el=>el.dataset.pillar));
+}
+function renderHobbies(){
+  const openPillars=getExpandedPillars();
+  const week=currentHobbyWeek();
+  const currentWeek=hobbyWeekCursor===dateKey(new Date(weekStart()));
+  document.getElementById('hobbyWeekTitle').innerHTML=`<div>${hobbyWeekText(hobbyWeekCursor)}</div><div class="hobby-week-subtitle">${currentWeek?'Esta semana':'Semana seleccionada'}</div>`;
+  document.getElementById('hobbyCurrentWeek').hidden=currentWeek;
+  document.getElementById('hobbyActivitiesCount').textContent=hobbyWeekCount(week);
+  document.getElementById('hobbyPillarsCount').textContent=hobbyWeekActivePillars(week)+'/7';
+  document.getElementById('hobbyPillMeter').innerHTML=HOBBY_PILLARS.map(p=>{
+    const on=p.activities.some(a=>hobbyChecked(week,a.id));
+    return `<span title="${escapeHtml(p.name)}" aria-label="${escapeHtml(p.name)}: ${on?'con actividad':'sin actividad'}" class="${on?'on':''}" style="--pill-color:${p.color}"></span>`;
+  }).join('');
+  document.getElementById('hobbyPillarList').innerHTML=HOBBY_PILLARS.map((p,index)=>{
+    const count=p.activities.filter(a=>hobbyChecked(week,a.id)).length;
+    const pct=(count/p.activities.length)*100;
+    return `<details class="hobby-pillar" data-pillar="${p.id}" style="--color:${p.color};--color-bg:${p.bg};" ${openPillars.has(p.id)?'open':''}>
+      <summary>
+        <span class="hobby-pillar-symbol">${p.emoji}</span>
+        <span class="hobby-pillar-label"><span class="hobby-pillar-title">${index+1}. ${escapeHtml(p.name)}</span><span class="hobby-pillar-small">${count} de ${p.activities.length} actividades esta semana</span><span class="hobby-pillar-progress"><span style="width:${pct}%"></span></span></span>
+        <span class="hobby-chevron" aria-hidden="true">›</span>
+      </summary>
+      <div class="hobby-pillar-list">${p.activities.map(a=>{
+        const entry=week.activities?.[a.id]||{}, checked=!!entry.checked;
+        const safeNotes=escapeHtml(entry.note||'');
+        const selectedDate=entry.date||'';
+        return `<div class="hobby-item">
+          <label class="hobby-item-top">
+            <input class="hobby-item-check" type="checkbox" data-hobby-check="${a.id}" style="--item-color:${p.color}" ${checked?'checked':''} />
+            <span class="hobby-item-label">${escapeHtml(a.name)}${a.explore?'<span class="hobby-explore">Por explorar</span>':''}</span>
+          </label>
+          ${checked?`<div class="hobby-item-fields">
+            <div class="field"><label for="hobby-date-${a.id}">¿Qué día fue? (opcional)</label><select id="hobby-date-${a.id}" data-hobby-date="${a.id}">${hobbyWeekDateOptions(selectedDate)}</select></div>
+            <div class="field"><label for="hobby-note-${a.id}">Qué hice, dónde, con quién o cómo me sentí (opcional)</label><textarea id="hobby-note-${a.id}" maxlength="600" data-hobby-note="${a.id}" placeholder="Anota algo que te gustaría recordar…">${safeNotes}</textarea></div>
+          </div>`:''}
+        </div>`;
+      }).join('')}</div>
+    </details>`;
+  }).join('');
+  document.getElementById('hobbyWeekNote').value=week.note||'';
+  const keys=[];
+  for(let i=5;i>=0;i--) keys.push(dateKey(weekDate(hobbyWeekCursor,-i*7)));
+  const counts=keys.map(k=>hobbyWeekCount(state.hobbyWeeks?.[k]));
+  const max=Math.max(1,...counts);
+  document.getElementById('hobbyTrend').innerHTML=keys.map((key,i)=>{
+    const h=5+(counts[i]/max)*75;
+    const date=dateFromKey(key);
+    const txt=`${date.getDate()}/${date.getMonth()+1}`;
+    return `<button type="button" data-hobby-jump="${key}" class="${key===hobbyWeekCursor?'active':''}" title="Semana del ${txt}: ${counts[i]} actividades" aria-label="Ver semana del ${txt}, ${counts[i]} actividades">
+      <span class="hobby-trend-count">${counts[i]}</span><span class="hobby-trend-bar" style="--bar-height:${h}px"></span><span>${txt}</span>
+    </button>`;
+  }).join('');
+}
+function markHobby(id,checked){
+  if(!HOBBY_PILLARS.some(p=>p.activities.some(a=>a.id===id))) return;
+  const week=editableHobbyWeek();
+  week.activities[id]={...(week.activities[id]||{}),checked,updatedAt:Date.now()};
+  saveState();renderHobbies();
+}
+function updateHobbyEntry(id,field,value){
+  const week=editableHobbyWeek();
+  if(!week.activities[id] || !week.activities[id].checked) return;
+  if(field==='date'){
+    const valid=value==='' || [...Array(7)].some((_,i)=>dateKey(weekDate(hobbyWeekCursor,i))===value);
+    if(!valid) return;
+  }
+  week.activities[id][field]=value;
+  week.activities[id].updatedAt=Date.now();
+  saveState();
+}
+
 function render(){
   document.getElementById('todayDate').textContent=new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
   document.getElementById('weeklyGoal').value=state.weeklyGoalHours;
-  renderHero(); renderStats(); renderCategories(); renderHistory(); renderProgress(); renderTraining();
+  renderHero(); renderStats(); renderCategories(); renderHistory(); renderProgress(); renderTraining(); renderHobbies();
 }
 function init(){
   document.getElementById('editCategory').innerHTML=CATEGORIES.map(c=>`<option value="${c.id}">${c.emoji} ${c.name}</option>`).join('');
@@ -589,6 +792,24 @@ function init(){
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
     document.getElementById('view-'+btn.dataset.view).classList.add('active'); render();
   }));
+  document.getElementById('hobbyPrevWeek').addEventListener('click',()=>shiftHobbyWeek(-1));
+  document.getElementById('hobbyNextWeek').addEventListener('click',()=>shiftHobbyWeek(1));
+  document.getElementById('hobbyCurrentWeek').addEventListener('click',()=>changeHobbyWeek(dateKey(new Date(weekStart()))));
+  document.getElementById('hobbyPillarList').addEventListener('change',e=>{
+    if(e.target.matches('[data-hobby-check]')) markHobby(e.target.dataset.hobbyCheck,e.target.checked);
+    if(e.target.matches('[data-hobby-date]')) updateHobbyEntry(e.target.dataset.hobbyDate,'date',e.target.value);
+  });
+  document.getElementById('hobbyPillarList').addEventListener('input',e=>{
+    if(e.target.matches('[data-hobby-note]')) updateHobbyEntry(e.target.dataset.hobbyNote,'note',e.target.value);
+  });
+  document.getElementById('hobbyWeekNote').addEventListener('input',e=>{
+    editableHobbyWeek().note=e.target.value;
+    saveState();
+  });
+  document.getElementById('hobbyTrend').addEventListener('click',e=>{
+    const b=e.target.closest('[data-hobby-jump]');
+    if(b) changeHobbyWeek(b.dataset.hobbyJump);
+  });
   document.getElementById('saveGoal').addEventListener('click',()=>{ const n=Number(document.getElementById('weeklyGoal').value); if(n>0){state.weeklyGoalHours=n;saveState();render();} });
   document.getElementById('exportBtn').addEventListener('click',exportData);
   document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
